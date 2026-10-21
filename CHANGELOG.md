@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/vaam-apps/vitepress-md3/compare/v1.0.0...v1.0.1) (2026-10-21)
+
+
+### Continuous Integration
+
+* bump the actions group with 2 updates ([#4](https://github.com/vaam-apps/vitepress-md3/issues/4)) ([c7223f4](https://github.com/vaam-apps/vitepress-md3/commit/c7223f401ef76982d26a8c1e15564874d2ef9630))
+
 ## 1.0.0 (2026-10-21)
 
 
