@@ -1,0 +1,65 @@
+/*
+ * Expressive-only touches. Everything that is a matter of degree (corner
+ * sizes, spring bounce, type weight) is already a token and flips with the
+ * style; these are the things standard M3 simply does not do.
+ */
+
+/* Feature icons sit in expressive shapes, a different one per card. */
+:root[data-md3-style="expressive"] #app .VPFeature .icon {
+  border-radius: 0;
+  clip-path: var(--md3-shape-cookie-9);
+}
+
+:root[data-md3-style="expressive"] #app .VPFeatures .item:nth-child(4n + 2) .icon {
+  clip-path: var(--md3-shape-clover-4);
+  background-color: var(--md-sys-color-tertiary-container);
+  color: var(--md-sys-color-on-tertiary-container);
+}
+
+:root[data-md3-style="expressive"] #app .VPFeatures .item:nth-child(4n + 3) .icon {
+  clip-path: var(--md3-shape-sunny);
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+:root[data-md3-style="expressive"] #app .VPFeatures .item:nth-child(4n + 4) .icon {
+  clip-path: var(--md3-shape-cookie-6);
+}
+
+/* …and the card answers a hover with a spring. */
+:root[data-md3-style="expressive"] #app .VPFeature.link:hover {
+  transform: translateY(-4px);
+}
+
+:root[data-md3-style="expressive"] #app .VPFeature.link:hover .icon {
+  transform: rotate(36deg) scale(1.06);
+}
+
+/* Pager cards squash their corners toward the direction of travel. */
+:root[data-md3-style="expressive"] #app .VPDocFooter .pager-link.prev:hover {
+  border-radius: var(--md-sys-shape-corner-small) var(--md-sys-shape-card) var(--md-sys-shape-card)
+    var(--md-sys-shape-corner-small);
+}
+
+:root[data-md3-style="expressive"] #app .VPDocFooter .pager-link.next:hover {
+  border-radius: var(--md-sys-shape-card) var(--md-sys-shape-corner-small)
+    var(--md-sys-shape-corner-small) var(--md-sys-shape-card);
+}
+
+/* The current page's sidebar pill morphs on press like an M3E nav item. */
+:root[data-md3-style="expressive"] #app .VPSidebarItem.is-link > .item:active {
+  border-radius: var(--md-sys-shape-corner-medium);
+}
+
+/* Section headings get a small tertiary sunburst. */
+:root[data-md3-style="expressive"] #app .vp-doc h2::after {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-left: 0.4em;
+  vertical-align: 0.15em;
+  background-color: var(--md-sys-color-tertiary);
+  clip-path: var(--md3-shape-very-sunny);
+  opacity: 0.85;
+}

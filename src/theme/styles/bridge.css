@@ -1,0 +1,187 @@
+/*
+ * The bridge: VitePress's default theme is styled entirely through `--vp-*`
+ * custom properties. Pointing each one at a Material 3 role is most of the
+ * restyle — every component the default theme ships picks it up for free.
+ *
+ * `:root:root` outranks the default theme's own `:root` / `.dark` blocks
+ * whatever order the stylesheets load in. Values are `var()` references, so
+ * light/dark and the style switcher are resolved by the token sheet alone.
+ */
+:root:root {
+  /* type */
+  --vp-font-family-base: var(--md-sys-typescale-plain-font);
+  --vp-font-family-mono: var(--md-sys-typescale-mono-font);
+
+  /* brand */
+  --vp-c-brand-1: var(--md-sys-color-primary);
+  --vp-c-brand-2: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) 84%,
+    var(--md-sys-color-on-surface)
+  );
+  --vp-c-brand-3: var(--md-sys-color-primary);
+  --vp-c-brand-soft: color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
+
+  /* surfaces and text */
+  --vp-c-bg: var(--md-sys-color-surface);
+  --vp-c-bg-alt: var(--md-sys-color-surface-container-low);
+  --vp-c-bg-elv: var(--md-sys-color-surface-container-high);
+  --vp-c-bg-soft: var(--md-sys-color-surface-container);
+  --vp-c-text-1: var(--md-sys-color-on-surface);
+  --vp-c-text-2: var(--md-sys-color-on-surface-variant);
+  --vp-c-text-3: var(--md-sys-color-outline);
+  --vp-c-border: var(--md-sys-color-outline);
+  --vp-c-divider: var(--md-sys-color-outline-variant);
+  --vp-c-gutter: var(--md-sys-color-surface-container);
+
+  --vp-c-default-1: color-mix(
+    in srgb,
+    var(--md-sys-color-secondary-container) 70%,
+    var(--md-sys-color-on-secondary-container)
+  );
+  --vp-c-default-2: color-mix(
+    in srgb,
+    var(--md-sys-color-secondary-container) 85%,
+    var(--md-sys-color-on-secondary-container)
+  );
+  --vp-c-default-3: var(--md-sys-color-secondary-container);
+  --vp-c-default-soft: color-mix(in srgb, var(--md-sys-color-secondary-container) 70%, transparent);
+
+  /* status: info → info, tip → success, important → tertiary,
+     warning → warning, danger/caution → error. Each pairs a container with
+     its on-container role, so text contrast is the scheme's guarantee. */
+  --vp-c-note-1: var(--md-sys-color-on-surface-variant);
+  --vp-c-note-2: var(--md-sys-color-on-surface);
+  --vp-c-note-3: var(--md-sys-color-outline);
+  --vp-c-note-soft: var(--md-sys-color-surface-container-high);
+
+  --vp-c-tip-1: var(--md-custom-color-success);
+  --vp-c-tip-2: var(--md-custom-color-on-success-container);
+  --vp-c-tip-3: var(--md-custom-color-success);
+  --vp-c-tip-soft: var(--md-custom-color-success-container);
+
+  --vp-c-success-1: var(--md-custom-color-success);
+  --vp-c-success-2: var(--md-custom-color-on-success-container);
+  --vp-c-success-3: var(--md-custom-color-success);
+  --vp-c-success-soft: var(--md-custom-color-success-container);
+
+  --vp-c-important-1: var(--md-sys-color-tertiary);
+  --vp-c-important-2: var(--md-sys-color-on-tertiary-container);
+  --vp-c-important-3: var(--md-sys-color-tertiary);
+  --vp-c-important-soft: var(--md-sys-color-tertiary-container);
+
+  --vp-c-warning-1: var(--md-custom-color-warning);
+  --vp-c-warning-2: var(--md-custom-color-on-warning-container);
+  --vp-c-warning-3: var(--md-custom-color-warning);
+  --vp-c-warning-soft: var(--md-custom-color-warning-container);
+
+  --vp-c-danger-1: var(--md-sys-color-error);
+  --vp-c-danger-2: var(--md-sys-color-on-error-container);
+  --vp-c-danger-3: var(--md-sys-color-error);
+  --vp-c-danger-soft: var(--md-sys-color-error-container);
+
+  --vp-c-caution-1: var(--md-sys-color-error);
+  --vp-c-caution-2: var(--md-sys-color-on-error-container);
+  --vp-c-caution-3: var(--md-sys-color-error);
+  --vp-c-caution-soft: var(--md-sys-color-error-container);
+
+  /* buttons: brand = filled, alt = tonal */
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: var(--md-sys-color-on-primary);
+  --vp-button-brand-bg: var(--md-sys-color-primary);
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: var(--md-sys-color-on-primary);
+  --vp-button-brand-hover-bg: var(--md-sys-color-primary);
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: var(--md-sys-color-on-primary);
+  --vp-button-brand-active-bg: var(--md-sys-color-primary);
+  --vp-button-alt-border: transparent;
+  --vp-button-alt-text: var(--md-sys-color-on-secondary-container);
+  --vp-button-alt-bg: var(--md-sys-color-secondary-container);
+  --vp-button-alt-hover-border: transparent;
+  --vp-button-alt-hover-text: var(--md-sys-color-on-secondary-container);
+  --vp-button-alt-hover-bg: var(--md-sys-color-secondary-container);
+  --vp-button-alt-active-border: transparent;
+  --vp-button-alt-active-text: var(--md-sys-color-on-secondary-container);
+  --vp-button-alt-active-bg: var(--md-sys-color-secondary-container);
+  --vp-button-sponsor-border: transparent;
+  --vp-button-sponsor-text: var(--md-sys-color-on-tertiary-container);
+  --vp-button-sponsor-bg: var(--md-sys-color-tertiary-container);
+
+  /* chrome */
+  --vp-nav-bg-color: var(--md-sys-color-surface);
+  --vp-nav-home-bg-color: var(--md-sys-color-surface);
+  --vp-nav-screen-bg-color: var(--md-sys-color-surface);
+  --vp-nav-divider-color: transparent;
+  --vp-local-nav-bg-color: var(--md-sys-color-surface);
+  --vp-local-nav-divider-color: var(--md-sys-color-outline-variant);
+  --vp-sidebar-bg-color: var(--md-sys-color-surface-container-low);
+  --vp-backdrop-bg-color: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent);
+  --vp-input-bg-color: var(--md-sys-color-surface-container-highest);
+  --vp-input-border-color: var(--md-sys-color-outline);
+  --vp-input-switch-bg-color: var(--md-sys-color-surface-container-highest);
+
+  /* code */
+  --vp-code-color: var(--md-sys-color-tertiary);
+  --vp-code-bg: var(--md-sys-color-surface-container-high);
+  --vp-code-link-color: var(--md-sys-color-primary);
+  --vp-code-link-hover-color: var(--vp-c-brand-2);
+  --vp-code-block-bg: var(--md-sys-color-surface-container);
+  --vp-code-block-divider-color: var(--md-sys-color-outline-variant);
+  --vp-code-tab-bg: var(--md-sys-color-surface-container);
+  --vp-code-tab-divider: var(--md-sys-color-outline-variant);
+  --vp-code-tab-text-color: var(--md-sys-color-on-surface-variant);
+  --vp-code-tab-hover-text-color: var(--md-sys-color-on-surface);
+  --vp-code-tab-active-text-color: var(--md-sys-color-primary);
+  --vp-code-tab-active-bar-color: var(--md-sys-color-primary);
+  --vp-code-copy-code-bg: var(--md-sys-color-surface-container-highest);
+  --vp-code-copy-code-hover-bg: var(--md-sys-color-secondary-container);
+  --vp-code-copy-code-border-color: transparent;
+  --vp-code-copy-code-hover-border-color: transparent;
+  --vp-code-copy-code-active-text: var(--md-sys-color-on-secondary-container);
+  --vp-code-line-highlight-color: color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
+  --vp-code-line-number-color: var(--md-sys-color-outline);
+  --vp-code-lang-color: var(--md-sys-color-outline);
+
+  /* home */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    in oklch 120deg,
+    var(--md-sys-color-primary) 25%,
+    var(--md-sys-color-tertiary)
+  );
+  --vp-home-hero-image-background-image:
+    radial-gradient(circle at 35% 40%, var(--md-sys-color-primary-container), transparent 62%),
+    radial-gradient(circle at 70% 65%, var(--md-sys-color-tertiary-container), transparent 58%);
+  --vp-home-hero-image-filter: blur(48px);
+
+  /* search */
+  --vp-local-search-bg: var(--md-sys-color-surface-container-high);
+  --vp-local-search-result-bg: var(--md-sys-color-surface-container-low);
+  --vp-local-search-result-border: transparent;
+  --vp-local-search-result-selected-bg: var(--md-sys-color-secondary-container);
+  --vp-local-search-result-selected-border: transparent;
+  --vp-local-search-highlight-bg: var(--md-sys-color-tertiary-container);
+  --vp-local-search-highlight-text: var(--md-sys-color-on-tertiary-container);
+
+  /* elevation: M3's two-shadow recipe, levels 1–5 */
+  --vp-shadow-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px 1px rgb(0 0 0 / 0.15);
+  --vp-shadow-2: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 6px 2px rgb(0 0 0 / 0.15);
+  --vp-shadow-3: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 8px 3px rgb(0 0 0 / 0.15);
+  --vp-shadow-4: 0 2px 3px rgb(0 0 0 / 0.3), 0 6px 10px 4px rgb(0 0 0 / 0.15);
+  --vp-shadow-5: 0 4px 4px rgb(0 0 0 / 0.3), 0 8px 12px 6px rgb(0 0 0 / 0.15);
+
+  /* badges */
+  --vp-badge-info-border: transparent;
+  --vp-badge-info-text: var(--md-custom-color-on-info-container);
+  --vp-badge-info-bg: var(--md-custom-color-info-container);
+  --vp-badge-tip-border: transparent;
+  --vp-badge-tip-text: var(--md-custom-color-on-success-container);
+  --vp-badge-tip-bg: var(--md-custom-color-success-container);
+  --vp-badge-warning-border: transparent;
+  --vp-badge-warning-text: var(--md-custom-color-on-warning-container);
+  --vp-badge-warning-bg: var(--md-custom-color-warning-container);
+  --vp-badge-danger-border: transparent;
+  --vp-badge-danger-text: var(--md-sys-color-on-error-container);
+  --vp-badge-danger-bg: var(--md-sys-color-error-container);
+}

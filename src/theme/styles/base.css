@@ -1,0 +1,147 @@
+/*
+ * Base: type, state layers, focus, selection, motion defaults.
+ *
+ * Component overrides are prefixed `#app` (or a doubled class for teleported
+ * UI) so they outrank the default theme's scoped selectors without
+ * `!important` — the default theme's own CSS loads in an order this theme
+ * does not control.
+ */
+
+:root {
+  /* State-layer opacities, from the M3 interaction-states spec. */
+  --md3-state-hover: 8%;
+  --md3-state-focus: 10%;
+  --md3-state-pressed: 10%;
+  --md3-state-dragged: 16%;
+
+  /* Shorthands for the two motion families every component uses. */
+  --md3-spatial: var(--md-sys-motion-spring-spatial-default-duration)
+    var(--md-sys-motion-spring-spatial-default);
+  --md3-spatial-fast: var(--md-sys-motion-spring-spatial-fast-duration)
+    var(--md-sys-motion-spring-spatial-fast);
+  --md3-effects: var(--md-sys-motion-spring-effects-default-duration)
+    var(--md-sys-motion-spring-effects-default);
+  --md3-effects-fast: var(--md-sys-motion-spring-effects-fast-duration)
+    var(--md-sys-motion-spring-effects-fast);
+}
+
+html {
+  accent-color: var(--md-sys-color-primary);
+  scrollbar-color: var(--md-sys-color-outline-variant) transparent;
+}
+
+body {
+  font-family: var(--md-sys-typescale-plain-font);
+  font-optical-sizing: auto;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+}
+
+::selection {
+  background-color: var(--md-sys-color-tertiary-container);
+  color: var(--md-sys-color-on-tertiary-container);
+}
+
+/* M3 focus indicator: a 3px secondary ring, offset from the element. */
+:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+}
+
+/* Headings take the style's headline weight; Roboto Flex's width axis gives
+   Expressive its wider, more confident display face. */
+#app .vp-doc :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-weight: var(--md-sys-typescale-headline-weight);
+}
+
+#app .vp-doc h1 {
+  font-weight: var(--md-sys-typescale-display-weight);
+  font-variation-settings: "wdth" var(--md-sys-typescale-display-width);
+  letter-spacing: var(--md-sys-typescale-display-tracking);
+  font-size: 2.25rem;
+  line-height: 1.25;
+}
+
+#app .vp-doc h2 {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 3.5rem;
+}
+
+#app .vp-doc a:not([class]) {
+  color: var(--md-sys-color-primary);
+  text-decoration-color: color-mix(in srgb, var(--md-sys-color-primary) 40%, transparent);
+  text-decoration-thickness: 2px;
+  transition:
+    color var(--md3-effects),
+    text-decoration-color var(--md3-effects);
+}
+
+#app .vp-doc a:not([class]):hover {
+  text-decoration-color: currentColor;
+}
+
+#app .vp-doc :not(pre) > code {
+  border-radius: var(--md-sys-shape-corner-small);
+  padding: 0.15em 0.4em;
+}
+
+#app .vp-doc blockquote {
+  border-left: 4px solid var(--md-sys-color-tertiary);
+  border-radius: 0 var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium) 0;
+  padding: 0.5rem 1rem;
+  background-color: var(--md-sys-color-surface-container-low);
+}
+
+#app .vp-doc hr {
+  border-top-color: var(--md-sys-color-outline-variant);
+}
+
+#app .vp-doc img {
+  border-radius: var(--md-sys-shape-image);
+}
+
+/* Tables: an outlined card with a tonal header row. */
+#app .vp-doc table {
+  width: fit-content;
+  max-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-card);
+  overflow: hidden;
+}
+
+#app .vp-doc :is(th, td) {
+  border: 0;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+#app .vp-doc tr:last-child td {
+  border-bottom: 0;
+}
+
+#app .vp-doc tr {
+  background-color: transparent;
+  border-top: 0;
+}
+
+#app .vp-doc th {
+  background-color: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  font-weight: var(--md-sys-typescale-title-weight);
+}
+
+#app .vp-doc tr:nth-child(2n) {
+  background-color: color-mix(in srgb, var(--md-sys-color-surface-container-low) 60%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:root {
+    --md3-spatial: 1ms linear;
+    --md3-spatial-fast: 1ms linear;
+    --md3-effects: 1ms linear;
+    --md3-effects-fast: 1ms linear;
+  }
+}

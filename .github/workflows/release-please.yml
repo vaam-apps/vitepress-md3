@@ -1,0 +1,47 @@
+name: release-please
+
+# Proposes the next release as a pull request, and cuts the tag (and a GitHub
+# Release) when that pull request merges. `release.yml` publishes to npm on
+# the tag. Same shape as vaam-apps/ui; see vaam-apps/.github docs/releasing.md
+# for the org-wide reasoning and the ways this has failed before.
+#
+# Why an App token and not GITHUB_TOKEN: GitHub raises no workflow events for
+# anything done with GITHUB_TOKEN. The tag would be created and `release.yml`
+# would never run — a release that looks cut and publishes nothing — and the
+# release PR would get no CI. If either secret is missing the token step fails
+# outright rather than falling back.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Never cancel a run that may be mid-way through pushing the release tag.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release-please:
+    name: propose the next release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.RELEASE_PLEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
+          # Capped to what opening a PR and pushing a tag in this repo needs.
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Open or update the release PR
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Lets CI be re-run by hand against any ref from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 26
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint and format (Biome, markdownlint)
+        run: pnpm run lint
+
+      - name: Typecheck (vue-tsc)
+        run: pnpm run typecheck
+
+      # Includes the WCAG contrast matrix (both styles × light/dark × four
+      # seeds) and the check that the generated shapes.css is current.
+      - name: Test
+        run: pnpm run test
+
+      - name: Build the config entry
+        run: pnpm run build
+
+      # A tarball missing a file fails only for the consumer, so read it.
+      - name: Pack and verify the tarball
+        run: |
+          pnpm pack --pack-destination /tmp
+          tar -tzf /tmp/vaam-apps-vitepress-md3-*.tgz | sed 's|^package/||' | sort > /tmp/contents.txt
+          for required in dist/config.mjs dist/config.d.mts src/theme/index.ts src/theme/Layout.vue \
+            src/theme/styles/index.css src/theme/styles/shapes.css src/shared/options.ts \
+            README.md LICENSE package.json; do
+            grep -qx "$required" /tmp/contents.txt \
+              || { echo "::error::$required missing from the tarball"; exit 1; }
+          done
+          for forbidden in '^docs/' '^test/' '^src/node/' '\.test\.'; do
+            if grep -qE "$forbidden" /tmp/contents.txt; then
+              echo "::error::files matching $forbidden leaked into the tarball"
+              exit 1
+            fi
+          done
+          echo "tarball contains $(wc -l < /tmp/contents.txt) files"
+
+      # The hub doubles as the theme's integration test: every component
+      # and every page must render, and a dead link fails the build.
+      - name: Build the docs site
+        run: pnpm --filter ./docs build
+
+  consumer:
+    name: consumer site (vitepress ${{ matrix.vitepress }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # The two lines `peerDependencies` promises. Bump the 2.x pin when a
+        # new prerelease lands; drop 1.x when the peer range does.
+        vitepress: ["1.6.4", "2.0.0-alpha.20"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 26
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install the packed theme into a fresh site and build it
+        env:
+          VITEPRESS_VERSION: ${{ matrix.vitepress }}
+        run: scripts/smoke-consumer.sh "$VITEPRESS_VERSION"

@@ -1,0 +1,30 @@
+# Weekly, grouped, so dependency churn arrives as one reviewable PR per
+# ecosystem rather than a dozen. Titles use the `deps` conventional type,
+# which pr-title.yml accepts and release-please files under "Dependencies".
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      vitepress-and-vue:
+        patterns: ["vitepress", "vue", "vue-tsc", "@vue/*"]
+      tooling:
+        patterns: ["*"]
+        exclude-patterns: ["vitepress", "vue", "vue-tsc", "@vue/*"]
+    ignore:
+      # Patched in pnpm-workspace.yaml; a bump must re-check that patch.
+      - dependency-name: "@material/material-color-utilities"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns: ["*"]

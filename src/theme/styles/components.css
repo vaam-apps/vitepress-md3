@@ -1,0 +1,590 @@
+/* ==========================================================================
+   Top app bar
+   ========================================================================== */
+
+/* Flat at the top of the page; once content scrolls under it, it takes the
+   surface-container fill, as an M3 top app bar does on scroll. */
+#app .VPNavBar:not(.top)::before,
+#app .VPNavBar:not(.top) .divider-line {
+  background-color: var(--md-sys-color-surface-container);
+}
+
+#app .VPNavBar .divider-line,
+#app .VPNavBar .divider {
+  background-color: transparent;
+}
+
+#app .VPNavBarTitle .title {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-weight: var(--md-sys-typescale-title-weight);
+  font-variation-settings: "wdth" var(--md-sys-typescale-display-width);
+  letter-spacing: -0.01em;
+}
+
+#app .VPNavBarMenuLink,
+#app .VPNavBarMenuGroup .button {
+  border-radius: var(--md-sys-shape-corner-full);
+  padding-inline: 0.875rem;
+  font-weight: var(--md-sys-typescale-label-weight);
+  transition:
+    background-color var(--md3-effects),
+    color var(--md3-effects);
+}
+
+#app .VPNavBarMenuLink:hover,
+#app .VPNavBarMenuGroup .button:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) var(--md3-state-hover),
+    transparent
+  );
+  color: var(--md-sys-color-on-surface);
+}
+
+#app .VPNavBarMenuLink.active {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+/* Search: an M3 search bar — a full-round field on surface-container-high. */
+#app .VPNavBarSearchButton {
+  border-radius: var(--md-sys-shape-field);
+  transition: background-color var(--md3-effects);
+}
+
+@media (min-width: 48rem) {
+  #app .VPNavBarSearchButton {
+    gap: 0.75rem;
+    min-width: 13rem;
+    padding: 0.625rem 0.75rem 0.625rem 1rem;
+    background-color: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  #app .VPNavBarSearchButton:hover {
+    background-color: var(--md-sys-color-surface-container-highest);
+  }
+
+  #app .VPNavBarSearchButton .text {
+    flex: 1;
+    text-align: left;
+    font-size: 0.875rem;
+  }
+
+  #app .VPNavBarSearchButton .keys {
+    border: 0;
+    border-radius: var(--md-sys-shape-corner-small);
+    background-color: var(--md-sys-color-surface);
+  }
+}
+
+/* Appearance switch: an M3 switch — tall track, round handle. */
+#app .VPSwitch {
+  height: 1.75rem;
+  width: 3.25rem;
+  border: 2px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-surface-container-highest);
+  transition:
+    background-color var(--md3-effects),
+    border-color var(--md3-effects);
+}
+
+#app .VPSwitch .check {
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: var(--md-sys-color-outline);
+  box-shadow: none;
+  transition:
+    transform var(--md3-spatial-fast),
+    background-color var(--md3-effects);
+}
+
+#app .VPSwitch .check .icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+#app .VPSwitch .check .icon :is(.sun, .moon) {
+  color: var(--md-sys-color-surface-container-highest);
+  font-size: 0.75rem;
+}
+
+.dark #app .VPSwitchAppearance {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary);
+}
+
+.dark #app .VPSwitchAppearance .check {
+  transform: translateX(1.375rem);
+  background-color: var(--md-sys-color-on-primary);
+}
+
+.dark #app .VPSwitchAppearance .check .icon :is(.sun, .moon) {
+  color: var(--md-sys-color-primary);
+}
+
+/* ==========================================================================
+   Navigation drawer (sidebar)
+   ========================================================================== */
+
+#app .VPSidebar {
+  scrollbar-width: thin;
+}
+
+@media (min-width: 60rem) {
+  #app .VPSidebar {
+    border-radius: 0 var(--md-sys-shape-card) var(--md-sys-shape-card) 0;
+  }
+}
+
+#app .VPSidebar .curtain {
+  background-color: var(--md-sys-color-surface-container-low);
+}
+
+#app .VPSidebarItem.level-0 > .item > .text,
+#app .VPSidebarItem.level-0 > .item > .link > .text {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-size: 0.8125rem;
+  font-weight: var(--md-sys-typescale-title-weight);
+  letter-spacing: 0.01em;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+#app .VPSidebarItem .item {
+  align-items: center;
+}
+
+/* Every link row is a pill-shaped target with a state layer… */
+#app .VPSidebarItem.is-link > .item {
+  margin-inline: -0.75rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--md-sys-shape-nav-item);
+  transition:
+    background-color var(--md3-effects),
+    border-radius var(--md3-spatial-fast);
+}
+
+#app .VPSidebarItem.is-link > .item:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) var(--md3-state-hover),
+    transparent
+  );
+}
+
+/* …and the current page wears the active indicator. */
+#app .VPSidebarItem.is-active > .item {
+  background-color: var(--md-sys-color-secondary-container);
+}
+
+#app .VPSidebarItem.is-active > .item .link > .text {
+  color: var(--md-sys-color-on-secondary-container);
+  font-weight: var(--md-sys-typescale-label-weight);
+}
+
+#app .VPSidebarItem .indicator {
+  display: none;
+}
+
+#app .VPSidebarItem .text {
+  padding-block: 0.5rem;
+  line-height: 1.5;
+}
+
+#app .VPSidebarItem .items {
+  border-left-color: var(--md-sys-color-outline-variant);
+}
+
+#app .VPSidebarItem .caret {
+  border-radius: var(--md-sys-shape-corner-full);
+  transition: background-color var(--md3-effects);
+}
+
+#app .VPSidebarItem .caret:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) var(--md3-state-hover),
+    transparent
+  );
+}
+
+#app .VPSidebarItem .caret-icon {
+  transition: transform var(--md3-spatial-fast);
+}
+
+/* Local nav (the "Menu / On this page" strip on narrow screens) */
+#app .VPLocalNav .menu,
+#app .VPLocalNavOutlineDropdown > button {
+  border-radius: var(--md-sys-shape-corner-full);
+}
+
+/* ==========================================================================
+   Outline ("On this page")
+   ========================================================================== */
+
+#app .VPDocAsideOutline .content {
+  border-left: 0;
+  padding-left: 0;
+}
+
+#app .VPDocAsideOutline .outline-title {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-weight: var(--md-sys-typescale-title-weight);
+  color: var(--md-sys-color-on-surface-variant);
+  padding-left: 0.75rem;
+}
+
+/* The marker becomes a pill behind the active link rather than a 2px line. */
+#app .VPDocAsideOutline .outline-marker {
+  left: 0;
+  width: 100%;
+  height: 2rem;
+  margin-top: -0.25rem;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-secondary-container);
+  transition:
+    top var(--md3-spatial),
+    opacity var(--md3-effects);
+}
+
+#app .VPDocAsideOutline .outline-link {
+  padding-inline: 0.75rem;
+  line-height: 1.5rem;
+  padding-block: 0.25rem;
+}
+
+#app .VPDocAsideOutline .outline-link.active {
+  color: var(--md-sys-color-on-secondary-container);
+  font-weight: var(--md-sys-typescale-label-weight);
+}
+
+/* ==========================================================================
+   Buttons — filled (brand), tonal (alt)
+   ========================================================================== */
+
+#app .VPButton {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--md-sys-shape-button);
+  font-weight: var(--md-sys-typescale-label-weight);
+  letter-spacing: 0.01em;
+  transition:
+    border-radius var(--md3-spatial-fast),
+    box-shadow var(--md3-effects),
+    background-color var(--md3-effects);
+}
+
+#app .VPButton.medium {
+  padding: 0 1.5rem;
+  line-height: 2.5rem;
+  font-size: 0.875rem;
+}
+
+#app .VPButton.big {
+  padding: 0 2rem;
+  line-height: 3.5rem;
+  font-size: 1rem;
+}
+
+/* The state layer: currentColor over the container, at the M3 opacities. */
+#app .VPButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity var(--md3-effects-fast);
+}
+
+#app .VPButton:hover::after {
+  opacity: var(--md3-state-hover);
+}
+
+#app .VPButton:active::after {
+  opacity: var(--md3-state-pressed);
+}
+
+#app .VPButton.brand:hover {
+  box-shadow: var(--vp-shadow-1);
+}
+
+/* Expressive buttons morph to a squarer corner while pressed. */
+#app .VPButton:active {
+  border-radius: var(--md-sys-shape-button-pressed);
+}
+
+/* ==========================================================================
+   Home
+   ========================================================================== */
+
+#app .VPHero .name,
+#app .VPHero .text {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-weight: var(--md-sys-typescale-display-weight);
+  font-variation-settings: "wdth" var(--md-sys-typescale-display-width);
+  letter-spacing: var(--md-sys-typescale-display-tracking);
+}
+
+#app .VPHero .tagline {
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Features: M3 filled cards. */
+#app .VPFeature {
+  border: 0;
+  border-radius: var(--md-sys-shape-card);
+  background-color: var(--md-sys-color-surface-container-low);
+  transition:
+    background-color var(--md3-effects),
+    transform var(--md3-spatial),
+    border-radius var(--md3-spatial),
+    box-shadow var(--md3-effects);
+}
+
+#app .VPFeature.link:hover {
+  background-color: var(--md-sys-color-surface-container-high);
+  box-shadow: var(--vp-shadow-1);
+}
+
+#app .VPFeature .box {
+  padding: 1.75rem;
+}
+
+#app .VPFeature .icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--md-sys-shape-corner-large);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  transition:
+    border-radius var(--md3-spatial),
+    transform var(--md3-spatial);
+}
+
+#app .VPFeature .title {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-weight: var(--md-sys-typescale-title-weight);
+  font-size: 1.125rem;
+}
+
+#app .VPFeature .details {
+  font-weight: 400;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+#app .VPFeature .link-text-value {
+  color: var(--md-sys-color-primary);
+  font-weight: var(--md-sys-typescale-label-weight);
+}
+
+/* ==========================================================================
+   Doc footer, pager, edit link
+   ========================================================================== */
+
+#app .VPDocFooter .prev-next {
+  border-top: 0;
+}
+
+#app .VPDocFooter .pager-link {
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-card);
+  padding: 1rem 1.25rem;
+  transition:
+    background-color var(--md3-effects),
+    border-color var(--md3-effects),
+    border-radius var(--md3-spatial);
+}
+
+#app .VPDocFooter .pager-link:hover {
+  border-color: transparent;
+  background-color: var(--md-sys-color-secondary-container);
+}
+
+#app .VPDocFooter .pager-link .title {
+  color: var(--md-sys-color-primary);
+  font-weight: var(--md-sys-typescale-title-weight);
+}
+
+#app .VPDocFooter .pager-link:hover .title {
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+#app .VPDocFooter .edit-link-button {
+  border-radius: var(--md-sys-shape-corner-full);
+  padding: 0.25rem 0.75rem;
+  margin-left: -0.75rem;
+  color: var(--md-sys-color-primary);
+  font-weight: var(--md-sys-typescale-label-weight);
+}
+
+#app .VPDocFooter .edit-link-button:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-primary) var(--md3-state-hover),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+#app .VPFooter {
+  border-top: 0;
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* ==========================================================================
+   Badges → M3 labels
+   ========================================================================== */
+
+#app .VPBadge,
+.vp-doc .VPBadge {
+  border: 0;
+  border-radius: var(--md-sys-shape-chip);
+  padding: 0 0.5rem;
+  font-weight: var(--md-sys-typescale-label-weight);
+}
+
+/* ==========================================================================
+   Custom containers → tonal M3 cards with on-container text
+   ========================================================================== */
+
+.vp-doc .custom-block {
+  border: 0;
+  border-radius: var(--md-sys-shape-container);
+  padding: 1rem 1.25rem;
+}
+
+.vp-doc .custom-block .custom-block-title {
+  font-family: var(--md-sys-typescale-brand-font);
+  font-weight: var(--md-sys-typescale-title-weight);
+  letter-spacing: 0.01em;
+}
+
+/* Info takes the info custom colour, not secondary: with many seeds the
+   secondary and tertiary containers sit close in hue, and info, important
+   and warning would read as three near-identical boxes. */
+.vp-doc .custom-block.info {
+  background-color: var(--md-custom-color-info-container);
+  color: var(--md-custom-color-on-info-container);
+}
+
+.vp-doc .custom-block.note,
+.vp-doc .custom-block.details {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+}
+
+.vp-doc .custom-block.tip {
+  background-color: var(--md-custom-color-success-container);
+  color: var(--md-custom-color-on-success-container);
+}
+
+.vp-doc .custom-block.important {
+  background-color: var(--md-sys-color-tertiary-container);
+  color: var(--md-sys-color-on-tertiary-container);
+}
+
+.vp-doc .custom-block.warning {
+  background-color: var(--md-custom-color-warning-container);
+  color: var(--md-custom-color-on-warning-container);
+}
+
+.vp-doc .custom-block:is(.danger, .caution) {
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+}
+
+.vp-doc .custom-block:is(.info, .tip, .important, .warning, .danger, .caution) :is(a, a > code) {
+  color: inherit;
+}
+
+.vp-doc
+  .custom-block:is(.info, .note, .tip, .important, .warning, .danger, .caution, .details)
+  :not(pre)
+  > code {
+  color: inherit;
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+/* ==========================================================================
+   Code
+   ========================================================================== */
+
+.vp-doc div[class*="language-"],
+.vp-block {
+  border-radius: var(--md-sys-shape-code);
+}
+
+@media (min-width: 40rem) {
+  .vp-doc div[class*="language-"],
+  .vp-block {
+    border-radius: var(--md-sys-shape-code);
+  }
+}
+
+.vp-doc .vp-code-group .tabs {
+  border-radius: var(--md-sys-shape-code) var(--md-sys-shape-code) 0 0;
+}
+
+.vp-doc .vp-code-group .tabs label::after {
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+}
+
+.vp-doc [class*="language-"] > button.copy {
+  border-radius: var(--md-sys-shape-corner-medium);
+}
+
+/* ==========================================================================
+   Local search → M3 dialog
+   ========================================================================== */
+
+.VPLocalSearchBox.VPLocalSearchBox .shell {
+  border-radius: var(--md-sys-shape-dialog);
+  background-color: var(--md-sys-color-surface-container-high);
+  box-shadow: var(--vp-shadow-3);
+}
+
+.VPLocalSearchBox.VPLocalSearchBox .search-bar {
+  border: 0;
+  border-radius: var(--md-sys-shape-field);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+.VPLocalSearchBox.VPLocalSearchBox .result {
+  border-radius: var(--md-sys-shape-corner-large);
+}
+
+.VPLocalSearchBox.VPLocalSearchBox .result.selected .titles,
+.VPLocalSearchBox.VPLocalSearchBox .result.selected .title-icon {
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+/* Flyout menus (nav dropdowns) */
+#app .VPMenu {
+  border: 0;
+  border-radius: var(--md-sys-shape-corner-large);
+  background-color: var(--md-sys-color-surface-container);
+  box-shadow: var(--vp-shadow-2);
+}
+
+#app .VPMenuLink .link {
+  border-radius: var(--md-sys-shape-corner-small);
+}
+
+#app .VPMenuLink .link:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) var(--md3-state-hover),
+    transparent
+  );
+}

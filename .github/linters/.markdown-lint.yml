@@ -1,0 +1,14 @@
+# Read by super-linter (vaam-apps/.github's lint.yml) instead of its built-in
+# default. Must say the same as the `config:` block in .markdownlint-cli2.yaml,
+# which `pnpm lint` uses — change both together.
+extends: markdownlint/style/prettier
+default: true
+MD060:
+  style: aligned
+MD024:
+  siblings_only: true
+# VitePress pages are Vue SFCs too: components and <script setup> blocks in
+# Markdown are the point, not a mistake.
+MD033: false
+# The home page and generated pages start with frontmatter, not an H1.
+MD041: false
