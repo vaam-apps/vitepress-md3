@@ -1,0 +1,22 @@
+# The theme package is the root; `docs/` is the vaam-apps documentation hub,
+# which installs the theme exactly the way any other docs site would
+# (`workspace:*`), so it is dogfooded through its public entry points.
+packages:
+  - "."
+  - "docs"
+
+allowBuilds:
+  esbuild: true
+
+# `@material/material-color-utilities@0.4.0` ships `type: module` with ten
+# relative imports missing their `.js` extension, so a plain Node import (the
+# docs config, vitest) throws ERR_MODULE_NOT_FOUND. Same patch, same reasoning
+# as vaam-apps/ui's pnpm-workspace.yaml — upstream is
+# material-foundation/material-color-utilities#195.
+#
+# Consumers of this package never see the broken file: tsdown bundles the
+# colour library into dist/config.mjs (see tsdown.config.ts), and the bundler
+# resolves extension-less specifiers on its own. Delete this block and the
+# patch once #195 ships.
+patchedDependencies:
+  "@material/material-color-utilities@0.4.0": patches/@material__material-color-utilities@0.4.0.patch

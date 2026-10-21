@@ -1,0 +1,27 @@
+# The org's Markdown gate, run here too. Super-linter (vaam-apps/.github's
+# reusable lint.yml, called from .github/workflows/quality.yml) applies this
+# config to the Markdown files a pull request changes; `pnpm lint` runs it over
+# every tracked file, so a docs page cannot rot unseen between edits.
+#
+# Copied from vaam-apps/ui's copy of the org config on 2026-10-21. If the org
+# config changes, this copy has to follow it.
+config:
+  extends: markdownlint/style/prettier
+  default: true
+  MD060:
+    style: aligned
+  MD024:
+    siblings_only: true
+  # VitePress pages are Vue SFCs too: components and <script setup> blocks in
+  # Markdown are the point, not a mistake.
+  MD033: false
+  # The home page and generated pages start with frontmatter, not an H1.
+  MD041: false
+globs:
+  - "**/*.md"
+ignores:
+  - AGENTS.md
+  - CLAUDE.md
+  - CHANGELOG.md
+  - node_modules/**
+gitignore: true

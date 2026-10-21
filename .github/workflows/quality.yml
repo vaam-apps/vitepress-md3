@@ -1,0 +1,87 @@
+# Calls the org-wide quality workflows in vaam-apps/.github.
+#
+# The implementations live in one place; what this file owns is the answer to
+# "has anything meaningful changed", which is necessarily per-repo.
+#
+# Gating is a per-job `if:` over a paths-filter job, never `on.pull_request.paths`:
+# a skipped job still reports and satisfies a required status check, while a
+# workflow that never triggers leaves the PR waiting on a check that never comes.
+name: quality
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: what changed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+      iac: ${{ steps.filter.outputs.iac }}
+      any: ${{ steps.filter.outputs.any }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            # Positive lists, never '**' plus '!' exclusions: paths-filter ORs
+            # its rules, so '**' matches everything and negations never subtract.
+            code:
+              - 'src/**'
+              - 'scripts/**'
+              - 'docs/.vitepress/**'
+              - '**/package.json'
+              - 'pnpm-lock.yaml'
+            iac:
+              - '.github/workflows/**'
+            any:
+              - '**'
+
+  # No SAST job: CodeQL is left to the repository's code-scanning default
+  # setup, as in vaam-apps/ui. A workflow-based CodeQL config cannot coexist
+  # with default setup.
+
+  lint:
+    name: lint
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    permissions:
+      contents: read
+      statuses: write
+    uses: vaam-apps/.github/.github/workflows/lint.yml@613f114e54197f20f70676d1d6334f71c98362aa # vaam-apps/.github main
+    with:
+      # Generated; Biome and markdownlint own the rest of what super-linter
+      # would otherwise argue with.
+      filter-regex-exclude: '(^|/)(AGENTS|CLAUDE|CHANGELOG)\.md$|src/theme/styles/shapes\.css$'
+    secrets:
+      app-client-id: ${{ secrets.RELEASE_PLEASE_APP_CLIENT_ID }}
+      app-private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
+
+  trivy:
+    name: trivy
+    needs: changes
+    if: needs.changes.outputs.code == 'true' || needs.changes.outputs.iac == 'true'
+    permissions:
+      security-events: write
+      contents: read
+    uses: vaam-apps/.github/.github/workflows/trivy.yml@613f114e54197f20f70676d1d6334f71c98362aa # vaam-apps/.github main
+    with:
+      scanners: "vuln,secret,misconfig"
+      upload-sarif: true
+    secrets:
+      app-client-id: ${{ secrets.RELEASE_PLEASE_APP_CLIENT_ID }}
+      app-private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
