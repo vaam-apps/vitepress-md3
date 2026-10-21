@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2](https://github.com/vaam-apps/vitepress-md3/compare/v1.0.1...v1.0.2) (2026-10-21)
+
+
+### Bug Fixes
+
+* **theme:** let wide doc tables scroll instead of clipping the last columns ([#7](https://github.com/vaam-apps/vitepress-md3/issues/7)) ([51899d6](https://github.com/vaam-apps/vitepress-md3/commit/51899d6bb3218e8ac7110784b03d3d3f9a7f4f32))
+
+
+### Documentation
+
+* **hub:** link every project to its new docs site ([#9](https://github.com/vaam-apps/vitepress-md3/issues/9)) ([e4cad7e](https://github.com/vaam-apps/vitepress-md3/commit/e4cad7ee9aed25d79c51f07ed6f3293dd3147ce2))
+
 ## [1.0.1](https://github.com/vaam-apps/vitepress-md3/compare/v1.0.0...v1.0.1) (2026-10-21)
 
 
