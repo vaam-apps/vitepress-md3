@@ -1,6 +1,6 @@
 {
   "name": "@vaam-apps/vitepress-md3",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A Material Design 3 theme for VitePress — standard or Expressive, generated from one seed colour. The house style of every vaam-apps documentation site.",
   "license": "MIT",
   "author": "Vaam Apps",
