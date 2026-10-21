@@ -143,7 +143,7 @@ export const groups: ProjectGroup[] = [
         monogram: "fe",
         description:
           "A file-routed application framework for Flutter, in the spirit of Next.js: the frame is lib/app/.",
-        link: "https://fespalier.github.io/fespalier/",
+        link: "https://fespalier.vaam.store",
         repo: "fespalier/fespalier",
         tags: ["Flutter", "Framework"],
       },
