@@ -29,10 +29,19 @@ export const groups: ProjectGroup[] = [
         title: "vsms",
         description:
           "A Cameroon-first, extensible A2P SMS gateway for OTPs and notifications: multi-provider HTTP/SMPP delivery, DLRs, signed webhooks.",
-        link: "https://github.com/vaam-apps/vsms#readme",
+        link: "https://vaam-apps.github.io/vsms/",
         repo: "vaam-apps/vsms",
         tags: ["Rust", "SMS"],
         shape: "clover-4",
+      },
+      {
+        title: "fyi",
+        description:
+          "Multi-tenant short links in Rust — an HTTP API and a CLI, deliberately no web UI.",
+        link: "https://vaam-apps.github.io/fyi/",
+        repo: "vaam-apps/fyi",
+        tags: ["Rust", "Links"],
+        shape: "gem",
       },
       {
         title: "emgr",
@@ -80,7 +89,7 @@ export const groups: ProjectGroup[] = [
         monogram: "wa",
         description:
           "WhatsApp Business Platform for Rust: typed Cloud API client, webhooks, Embedded Signup, templates, OTP, adapters, Typst documents.",
-        link: "https://github.com/vaam-apps/meta-whatsapp-rs#readme",
+        link: "https://vaam-apps.github.io/meta-whatsapp-rs/",
         repo: "vaam-apps/meta-whatsapp-rs",
         tags: ["Rust"],
       },
@@ -89,7 +98,7 @@ export const groups: ProjectGroup[] = [
         monogram: "fo",
         description:
           "One Talker, one OpenTelemetry SDK and one guarded zone for a Flutter app — with a severity floor for metered connections.",
-        link: "https://github.com/vaam-apps/flutter-otel-zone#readme",
+        link: "https://vaam-apps.github.io/flutter-otel-zone/",
         repo: "vaam-apps/flutter-otel-zone",
         tags: ["Flutter", "OpenTelemetry"],
       },
@@ -98,7 +107,7 @@ export const groups: ProjectGroup[] = [
         monogram: "fk",
         description:
           "Hardware-backed ECDSA P-256 (ES256) signing for Flutter, via AndroidKeyStore / the Apple Secure Enclave.",
-        link: "https://github.com/vaam-apps/flutter-sign-keypair#readme",
+        link: "https://vaam-apps.github.io/flutter-sign-keypair/",
         repo: "vaam-apps/flutter-sign-keypair",
         tags: ["Flutter", "Security"],
       },
@@ -107,18 +116,36 @@ export const groups: ProjectGroup[] = [
         monogram: "tk",
         description:
           "Hardware-backed ES256 signing for device-bound authentication in Tauri v2 apps. Port of flutter-sign-keypair.",
-        link: "https://github.com/vaam-apps/tauri-sign-keypair#readme",
+        link: "https://vaam-apps.github.io/tauri-sign-keypair/",
         repo: "vaam-apps/tauri-sign-keypair",
         tags: ["Tauri", "Security"],
+      },
+      {
+        title: "tauri-otel",
+        monogram: "to",
+        description:
+          "Traces and logs over OTLP/HTTP from the Rust side and the webview of a Tauri v2 app, under one resource and behind one export floor.",
+        link: "https://vaam-apps.github.io/tauri-otel/",
+        repo: "vaam-apps/tauri-otel",
+        tags: ["Tauri", "OpenTelemetry"],
       },
       {
         title: "tauri-webview-guard",
         monogram: "tg",
         description:
           "Refuse to boot a Tauri v2 app into a below-floor WebView engine, and say how to fix it — natively, before first paint.",
-        link: "https://github.com/vaam-apps/tauri-webview-guard#readme",
+        link: "https://vaam-apps.github.io/tauri-webview-guard/",
         repo: "vaam-apps/tauri-webview-guard",
         tags: ["Tauri"],
+      },
+      {
+        title: "fespalier",
+        monogram: "fe",
+        description:
+          "A file-routed application framework for Flutter, in the spirit of Next.js: the frame is lib/app/.",
+        link: "https://fespalier.vaam.store",
+        repo: "fespalier/fespalier",
+        tags: ["Flutter", "Framework"],
       },
     ],
   },
