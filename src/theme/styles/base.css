@@ -110,7 +110,10 @@ body {
   border-spacing: 0;
   border: 1px solid var(--md-sys-color-outline-variant);
   border-radius: var(--md-sys-shape-card);
-  overflow: hidden;
+  /* `auto`, not `hidden`: both clip the rows to the rounded corners, but
+     only `auto` keeps VitePress's horizontal scroll for a table wider
+     than the column (it sets `display: block` on `.vp-doc table`). */
+  overflow-x: auto;
 }
 
 #app .vp-doc :is(th, td) {
